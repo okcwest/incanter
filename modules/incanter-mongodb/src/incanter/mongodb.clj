@@ -66,7 +66,8 @@ Here are Somnium's descriptions of Congomongo's functions:
 
  incanter.mongodb
     (:use [incanter.core :only (dataset)]
-             [somnium.congomongo :only (fetch mass-insert!)]))
+          [somnium.congomongo :only (fetch mass-insert!)]
+          [clojure.set :only (union)]))
 
 
 (defn fetch-dataset
@@ -96,7 +97,7 @@ Examples:
 "
   [& args]
     (let [results (apply fetch args)
-	   colnames  (keys (first results))]
+	   colnames  (reduce union (map (comp set keys) results))]
       (dataset colnames results)))
 
 
